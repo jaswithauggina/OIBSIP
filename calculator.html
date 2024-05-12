@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Calculator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #424242; 
+      font-family: Arial, sans-serif; 
+    }
+
+    #calculator {
+      width: 300px;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); 
+      background-color: lightgrey; 
+    }
+
+    #display {
+      font-size: 24px;
+      margin-bottom: 15px; 
+      padding: 10px;
+      text-align: right;
+     margin-top:15px;
+      border-radius: 8px;
+      width: calc(100% - 20px); 
+      background-color: #f9f9f9; 
+      height: 30px;
+	    width: 268px;
+      box-shadow: inset 0px 0px 10px #030303;
+    }
+
+    button {
+      width: 60px;
+      height: 60px; 
+      margin: 5px;
+      font-size: 20px; 
+      cursor: pointer;
+      border: none;
+      border-radius: 8px; 
+      background-color: #EBEBEB; 
+      color: #181818; 
+      text-shadow: 1px 1px 0px #FFF;
+      transition: all 0.3s ease; 
+      box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #DCDCDC;
+    }
+    #clear {
+      background-color: #D20000;
+      color: #FFF;
+      border-top: 2px solid #FF8484;
+	border-right: 2px solid #FF8484;
+	border-bottom: 2px solid #800000;
+	border-left: 2px solid #800000;
+	box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #B00000;
+  width: 135px;
+    }
+    #equal {
+      background-color: rgb(18, 118, 18) ;
+      border-top: 2px solid #0da40d;
+	border-right: 2px solid #0da40d;
+	border-left: 2px solid #023702;
+	border-bottom: 2px solid #023702;
+      box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #025902;
+      width: 135px;
+    }
+    #equal:hover{
+      background-color: #049e4f;
+    }
+    #clear:hover{
+      background-color: #802323;
+    }
+
+    button:hover {
+      background-color: lightsteelblue; 
+    }
+
+    button.operator {
+      background-color: #434343; 
+      color: #FFF;
+	text-shadow: -1px -1px 0px #44006F;
+	border-top: 2px solid #C1C1C1;
+	border-right: 2px solid #C1C1C1;
+	border-bottom: 2px solid #181818;
+	border-left: 2px solid #181818;
+  box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #2E2E2E
+    }
+
+    button.operator:hover {
+      background-color: #FFBA75; 
+    }
+  </style>
+</head>
+<body>
+  <div id="calculator">
+    <div id="display"></div>
+    <button onclick="appendToDisplay('7')">7</button>
+    <button onclick="appendToDisplay('8')">8</button>
+    <button onclick="appendToDisplay('9')">9</button>
+    <button class="operator" onclick="appendToDisplay('+')">+</button>
+    <button onclick="appendToDisplay('4')">4</button>
+    <button onclick="appendToDisplay('5')">5</button>
+    <button onclick="appendToDisplay('6')">6</button>
+    <button class="operator" onclick="appendToDisplay('-')">-</button>
+    <button onclick="appendToDisplay('1')">1</button>
+    <button onclick="appendToDisplay('2')">2</button>
+    <button onclick="appendToDisplay('3')">3</button>
+    <button class="operator" onclick="appendToDisplay('*')">x</button>
+    <button onclick="backspace()">←</button>
+    <button onclick="appendToDisplay('0')">0</button>
+    <button class="operator" onclick="appendToDisplay('.')">.</button>
+    <button class="operator" onclick="appendToDisplay('/')">/</button>
+    <button id="clear" onclick="clearDisplay()">C</button>
+    <button id="equal" class="operator" onclick="calculate()">=</button>
+
+</div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function appendToDisplay(value) {
+      display.textContent += value;
+    }
+
+    function clearDisplay() {
+      display.textContent = '';
+    }
+    
+    function backspace() {
+      display.textContent = display.textContent.slice(0, -1);
+    }
+
+    function calculate() {
+      try {
+        display.textContent = eval(display.textContent);
+      } catch (error) {
+        display.textContent = 'Error';
+      }
+    }
+  </script>
+</body>
+</html>
