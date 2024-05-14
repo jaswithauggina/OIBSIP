@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do App</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/026/540/820/small_2x/modern-and-good-looking-hand-drawn-flowers-background-free-vector.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    height: 90vh; 
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #cdb69a;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.input-container input[type="text"] {
+    width: calc(50% - 5px); 
+    padding: 12px;
+    border-radius: 10px 0 0 10px; 
+    font-size: 16px;
+    margin-right: -2px; 
+    background-color: #eae1d5;
+    border: none;
+}
+
+.input-container button {
+    padding: 12px 20px;
+    border: none;
+    background-color: black;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 0 10px 10px 0; 
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.priority-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.priority-container .priority-option {
+    display: inline-flex;
+    align-items: center;
+    background-color: #eae1d5;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.priority-container .priority-option:hover {
+    background-color: #ddd;
+}
+
+.priority-container .priority-option input[type="radio"] {
+    display: none;
+}
+
+.priority-container .priority-option label {
+    margin-left: 5px;
+}
+
+.columns-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.column {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+}
+
+.column h2 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    background-color: #cdb69a;
+    z-index: 1;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    overflow-y: auto;
+}
+
+ul li {
+    background-color: #eae1d5;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: drop 0.5s ease forwards;
+}
+
+.completed {
+    text-decoration: none;
+    color: #888;
+}
+
+button.delete {
+    background-color: #ff3333;
+    color: white;
+}
+
+button.delete:hover {
+    background-color: #cc0000;
+}
+
+button.checkmark {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+button.checkmark:hover {
+    background-color: #2e8b57;
+}
+
+.line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: black;
+    margin-left: 50%;
+    z-index: -1;
+}
+
+.circle-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.priority-high {
+    background-color: #e59789;
+}
+
+.priority-medium {
+    background-color: #d3c574;
+}
+
+.priority-low {
+    background-color: #98c298;
+}
+
+.priority-option input[type="radio"]:checked + label {
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="input-container">
+        <input type="text" id="todo-input" placeholder="Add your task">
+        <button class="add-btn" id="add-btn" type="button">Add</button>
+    </div>
+    <div class="priority-container">
+        <div class="priority-option">
+            <input type="radio" id="priority-high" name="priority" value="high">
+            <label for="priority-high">High</label>
+        </div>
+        <div class="priority-option">
+            <input type="radio" id="priority-medium" name="priority" value="medium">
+            <label for="priority-medium">Medium</label>
+        </div>
+        <div class="priority-option">
+            <input type="radio" id="priority-low" name="priority" value="low" checked>
+            <label for="priority-low">Low</label>
+        </div>
+    </div>
+    <div class="columns-container">
+        <div class="column">
+            <h2>Pending</h2>
+            <ul id="pending-tasks"></ul>
+        </div>
+        <div class="column">
+            <h2>Completed</h2>
+            <ul id="completed-tasks"></ul>
+        </div>
+        <div class="line"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const todoInput = document.getElementById('todo-input');
+    const pendingTasksList = document.getElementById('pending-tasks');
+    const completedTasksList = document.getElementById('completed-tasks');
+    const addBtn = document.getElementById('add-btn');
+    let selectedPriority = 'low'; 
+
+    addBtn.addEventListener('click', function() {
+        const taskName = todoInput.value.trim();
+        if (taskName !== '') {
+            addTask(taskName, selectedPriority);
+            todoInput.value = '';
+        }
+    });
+
+    const priorityOptions = document.querySelectorAll('.priority-option');
+    priorityOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            selectedPriority = option.querySelector('input[type="radio"]').value;
+            priorityOptions.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+        });
+    });
+
+    function addTask(taskName, priority) {
+        const li = document.createElement('li');
+        const checkbox = document.createElement('button');
+        checkbox.className = 'circle-button checkmark';
+        checkbox.innerHTML = '&#10003;';
+        const span = document.createElement('span');
+        span.textContent = taskName;
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        
+        if (!priority) {
+            li.classList.add('priority-low'); 
+        } else {
+            li.classList.add('priority-' + priority);
+        }
+        
+        pendingTasksList.appendChild(li);
+
+        checkbox.addEventListener('click', function() {
+            if (!li.classList.contains('completed')) {
+                markTaskAsCompleted(li);
+            } else {
+                markTaskAsPending(li);
+            }
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'circle-button delete';
+        deleteButton.textContent = 'x';
+        li.appendChild(deleteButton);
+
+        deleteButton.addEventListener('click', function() {
+            li.remove();
+        });
+    }
+
+    function markTaskAsCompleted(task) {
+        pendingTasksList.removeChild(task);
+        task.classList.add('priority-low'); 
+        completedTasksList.appendChild(task);
+        task.classList.add('completed');
+
+        const checkbox = task.querySelector('.circle-button.checkmark');
+        checkbox.remove();
+    }
+
+    function markTaskAsPending(task) {
+        completedTasksList.removeChild(task);
+        pendingTasksList.appendChild(task);
+        task.classList.remove('completed');
+    }
+});
+</script>
+
+</body>
+</html>
