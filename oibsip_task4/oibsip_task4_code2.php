@@ -150,7 +150,7 @@ body::after {
             $bdate = $_POST['bdate'];
             if ($password === $confirmPassword) 
             {
-                header("Location: login.php?username=$username&password=$password");
+                header("Location: oibsip_task4_code3?username=$username&password=$password");
                 exit;
             }
             else 
