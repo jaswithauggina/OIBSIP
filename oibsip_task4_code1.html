@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+         body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative; 
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(221, 229, 244, 0.7); 
+    z-index: -1; 
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://www.plannthat.com/wp-content/uploads/2020/03/plush-design-studio-Bg3qkPDpopY-unsplash-1920x1440.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -2; 
+}
+
+        section {
+            height: 90vh;
+            position: relative;
+        }
+        .text {
+            font-size: 40px;
+            font-family: Arial, sans-serif;
+            color: #3e4684;
+        }
+        
+        #boost-text {
+    font-size: 25px; 
+    font-style: italic; 
+    color: #7279ae;
+}
+
+        .container {
+            max-width: 800px;
+            height: 45vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: #f1f7fe;
+            border-radius: 25px;
+            padding: 30px;
+            border: 5.5px solid #636893;
+        }
+        .signup-button,
+        .login-button {
+            background: #3e4684;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            width: 9rem;
+            height: 2em;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .signup-button:hover, .login-button:hover
+        {
+            background: #6b7a94; 
+            color: white; 
+        }
+        .signup-button {
+            margin-bottom: 70px;
+            margin-right: 50px;
+        }
+        .login-button {
+            margin-bottom: 70px;
+            margin-left: 50px;
+        }
+    </style>
+    <script>
+        function redirectToRegister() {
+            window.location.href = "register.php";
+        }
+
+        function redirectToLogin() {
+            window.location.href = "login.php";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text">Best Learning 
+                         Education Platform 
+        </h1>
+        <p id="boost-text">Boost up your skills with a new way of learning!</p>
+        <div>
+            <button class="signup-button" onclick="redirectToRegister()">Sign up</button>
+            <button class="login-button" onclick="redirectToLogin()">Login</button>
+        </div>
+    </div>
+</body>
+</html>
